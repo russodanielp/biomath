@@ -1,0 +1,83 @@
+Source -> Time_Sim	Time_Sim_production_rate_k	
+PCSK9_pl + MAb_pl -> MAb_PCSK9_pl	MAb_PCSK9_association_rate_k*(MAb_pl/MAb_Vd)*(PCSK9_pl/volume_pl)*volume_pl	
+MAb_PCSK9_pl -> Sink	MAb_PCSK9_kel*MAb_PCSK9_pl	
+MAb_PCSK9_pl -> PCSK9_pl + MAb_pl	MAb_PCSK9_association_rate_k*MAb_PCSK9_Kd*MAb_PCSK9_pl	
+MAb_pl -> Sink	MAb_kel*MAb_pl	
+Statin_gi -> Statin_pl	Statin_Ka*Statin_F*Statin_gi	
+Statin_pl -> Sink	Statin_kel*Statin_pl	
+Source + SREBP_nu_P -> LDLR_ic_P + SREBP_nu_P	LDLR_ic_P_production_rate_k*power(SREBP_nu_P,SREBP_LDLR_nh)/(power(SREBP_LDLR_EC50,SREBP_LDLR_nh)+power(SREBP_nu_P,SREBP_LDLR_nh))	
+LDLR_ic_P -> LDLR_cs_P	LDLR_ic_to_cs_P_trafficking_rate_k*LDLR_ic_P	
+Source -> SREBP_ic_P	SREBP_ic_P_production_rate_k	
+SREBP_ic_P -> Sink	SREBP_ic_P_degradation_rate_k*SREBP_ic_P	
+SREBP_ic_P + Chol_er_P -> SREBP_nu_P + Chol_er_P	SREBP_ic_to_nu_P_activation_rate_k*SREBP_ic_P*(1-Chol_SREBP_Imax*power(Chol_er_P,Chol_SREBP_nh)/(power(Chol_er_P_base,Chol_SREBP_nh)+power(Chol_er_P,Chol_SREBP_nh)))	
+LDLR_cs_P -> LDLR_en_P	LDLR_P_internalization_rate_k*LDLR_internalization_fraction_P*LDLR_cs_P	
+LDLR_en_P -> LDLR_cs_P	LDLR_P_recycling_rate_k*LDLR_en_P	
+LDL_pl + LDLR_cs_P -> LDL_LDLR_cs_P	LDL_LDLR_pl_association_rate_k*(LDL_pl/volume_pl)*(LDLR_cs_P/volume_P)*volume_P	
+PCSK9_pl + LDLR_cs_P -> PC9_LDLR_cs_P	PCSK9_LDLR_pl_association_rate_k*(PCSK9_pl/volume_pl)*(LDLR_cs_P/volume_P)*volume_P	
+LDLR_en_P + LDL_en_P -> LDL_LDLR_en_P	LDL_LDLR_en_association_rate_k*(LDL_en_P/volume_en_P)*(LDLR_en_P/volume_en_P)*volume_en_P	
+LDLR_en_P + PCSK9_en_P -> PC9_LDLR_en_P	PCSK9_LDLR_en_association_rate_k*(PCSK9_en_P/volume_en_P)*(LDLR_en_P/volume_en_P)*volume_en_P	
+LDL_LDLR_cs_P -> LDLR_cs_P + LDL_pl	LDL_LDLR_pl_association_rate_k*LDL_LDLR_pl_Kd*LDL_LDLR_cs_P	
+PC9_LDLR_cs_P -> LDLR_cs_P + PCSK9_pl	PCSK9_LDLR_pl_association_rate_k*PCSK9_LDLR_pl_Kd*PC9_LDLR_cs_P	
+LDL_LDLR_en_P -> LDL_en_P + LDLR_en_P	LDL_LDLR_en_association_rate_k*LDL_LDLR_en_Kd*LDL_LDLR_en_P	
+PC9_LDLR_en_P -> PCSK9_en_P + LDLR_en_P	PCSK9_LDLR_en_association_rate_k*PCSK9_LDLR_en_Kd*PC9_LDLR_en_P	
+LDLR_en_P -> Sink	LDLR_en_P_degradation_rate_k*LDLR_en_P	
+PCSK9_en_P -> Sink	PCSK9_en_P_degradation_rate_k*PCSK9_en_P	
+LDL_LDLR_cs_P -> LDL_LDLR_en_P	LDL_LDLR_P_internalization_rate_k*LDLR_internalization_fraction_P*LDL_LDLR_cs_P	
+PC9_LDLR_cs_P -> PC9_LDLR_en_P	PC9_LDLR_P_internalization_rate_k*LDLR_internalization_fraction_P*PC9_LDLR_cs_P	
+Calculation + LDL_pl -> Conc_LDL + LDL_pl	calculation_switch*(convert_nmol_to_mmol*Chol_MW*chol_per_LDL_particle*LDL_pl/(volume_pl*convert_L_to_dL))	
+ApoB_pl + LDL_LDLR_cs_P + VLDL_pl + LDL_pl -> Sink + LDL_LDLR_cs_P + VLDL_pl + LDL_pl	ApoB_pl_clearance_rate_k*ApoB_pl	
+ApoA1_pl -> Sink	ApoA1_pl_clearance_rate_k*ApoA1_pl	
+PCSK9_pl -> Sink	PCSK9_pl_clearance_rate_k*PCSK9_pl	
+Statin_gi -> Sink	Statin_Ka*(1-Statin_F)*Statin_gi	
+MAb_sc -> MAb_pl	MAb_Ka*MAb_F*MAb_sc	
+MAb_sc -> Sink	MAb_Ka*(1-MAb_F)*MAb_sc	
+PC9_LDLR_en_P -> Sink	PC9_LDLR_en_P_degradation_rate_k*PC9_LDLR_en_P	
+Source + SREBP_nu_P + Conc_Statin -> Chol_ic_P + SREBP_nu_P + Conc_Statin	Chol_ic_P_production_rate_k*power(SREBP_nu_P,SREBP_Chol_nh)/(power(SREBP_Chol_EC50,SREBP_Chol_nh)+power(SREBP_nu_P,SREBP_Chol_nh))*(1-Statin_Chol_Imax*power(abs(Conc_Statin),Statin_Chol_nh)/(power(Statin_Chol_P_IC50,Statin_Chol_nh)+power(abs(Conc_Statin),Statin_Chol_nh)))	
+Chol_ic_P -> Sink	Chol_ic_P_elimination_rate_k*Chol_ic_P	
+Calculation + PCSK9_pl -> Conc_PCSK9 + PCSK9_pl	calculation_switch*(PCSK9_pl/volume_pl)	
+Calculation + MAb_pl + MAb_PCSK9_pl -> Conc_MAb_Tot + MAb_pl + MAb_PCSK9_pl	calculation_switch*(MAb_MW*convert_ng_to_mg*(MAb_pl+MAb_PCSK9_pl+MAb_PC9_2_pl)/MAb_Vd)	
+Calculation + MAb_pl -> Conc_MAb_Free + MAb_pl	calculation_switch*(MAb_MW*convert_ng_to_mg*MAb_pl/MAb_Vd)	
+Calculation + HDL_pl -> Conc_HDL + HDL_pl	calculation_switch*(convert_nmol_to_mmol*Chol_MW*chol_per_HDL_particle*HDL_pl/(volume_pl*convert_L_to_dL))	
+Calculation + ApoB_pl -> Conc_ApoB + ApoB_pl	calculation_switch*(ApoB_MW*ApoB_pl*convert_nmol_to_mol/volume_pl)	
+Calculation + ApoA1_pl -> Conc_ApoA1 + ApoA1_pl	calculation_switch*(ApoA1_MW*ApoA1_pl*convert_nmol_to_mol/volume_pl)	
+Calculation + LDL_pl + HDL_pl + VLDL_pl -> Conc_Chol_Tot + LDL_pl + HDL_pl + VLDL_pl	calculation_switch*(convert_nmol_to_mmol*Chol_MW*(chol_per_LDL_particle*LDL_pl+chol_per_HDL_particle*HDL_pl+chol_per_VLDL_particle*VLDL_pl)/(volume_pl*convert_L_to_dL))	
+Calculation + LDL_pl + VLDL_pl -> Conc_nonHDL + LDL_pl + VLDL_pl	calculation_switch*(convert_nmol_to_mmol*Chol_MW*(chol_per_LDL_particle*LDL_pl+chol_per_VLDL_particle*VLDL_pl)/(volume_pl*convert_L_to_dL))	
+Calculation + Conc_ApoB + Conc_ApoA1 -> ApoB_ApoA1 + Conc_ApoB + Conc_ApoA1	calculation_switch*(Conc_ApoB/Conc_ApoA1)	
+Calculation + Base_PCSK9 + Conc_PCSK9 -> PctCh_PCSK9 + Base_PCSK9 + Conc_PCSK9	calculation_switch*(convert_frac_to_pct*(Conc_PCSK9-Base_PCSK9)/Base_PCSK9)	
+Calculation + Base_LDL + Conc_LDL -> PctCh_LDL + Base_LDL + Conc_LDL	calculation_switch*(convert_frac_to_pct*(Conc_LDL-Base_LDL)/Base_LDL)	
+Calculation + Base_HDL + Conc_HDL -> PctCh_HDL + Base_HDL + Conc_HDL	calculation_switch*(convert_frac_to_pct*(Conc_HDL-Base_HDL)/Base_HDL)	
+Calculation + Base_Chol_Tot + Conc_Chol_Tot -> PctCh_Chol_Tot + Base_Chol_Tot + Conc_Chol_Tot	calculation_switch*(convert_frac_to_pct*(Conc_Chol_Tot-Base_Chol_Tot)/Base_Chol_Tot)	
+Calculation + Base_nonHDL + Conc_nonHDL -> PctCh_nonHDL + Base_nonHDL + Conc_nonHDL	calculation_switch*(convert_frac_to_pct*(Conc_nonHDL-Base_nonHDL)/Base_nonHDL)	
+Calculation + Base_ApoB + Conc_ApoB -> PctCh_ApoB + Base_ApoB + Conc_ApoB	calculation_switch*(convert_frac_to_pct*(Conc_ApoB-Base_ApoB)/Base_ApoB)	
+Calculation + Base_ApoA1 + Conc_ApoA1 -> PctCh_ApoA1 + Base_ApoA1 + Conc_ApoA1	calculation_switch*(convert_frac_to_pct*(Conc_ApoA1-Base_ApoA1)/Base_ApoA1)	
+SREBP_nu_P -> Sink	SREBP_nu_P_degradation_rate_k*SREBP_nu_P	
+LDL_en_P -> Trans	LDL_en_to_Chol_ic_P_rate_k*LDL_en_P	
+Trans -> Chol_ic_P	LDL_en_to_Chol_ic_P_rate_k*LDL_en_P*chol_per_LDL_particle	
+VLDL_pl + Conc_Fibrate -> Trans + Conc_Fibrate	VLDL_to_LDL_conversion_rate_k*VLDL_pl*(1+Fibrate_LPL_Emax*power(Conc_Fibrate,Fibrate_LPL_nh)/(power(Fibrate_LPL_EC50,Fibrate_LPL_nh)+power(Conc_Fibrate,Fibrate_LPL_nh)))	
+Trans -> LDL_pl	VLDL_to_LDL_conversion_rate_k*VLDL_pl*chol_per_VLDL_particle/chol_per_LDL_particle	
+HDL_pl + CETP_pl + ApoB_pl -> Trans + CETP_pl + ApoB_pl	HDL_to_LDL_exchange_rate_k*HDL_pl*(weight_ApoB_HDL_LDL*power(ApoB_pl,ApoB_HDL_LDL_nh)/(power(ApoB_HDL_LDL_EC50,ApoB_HDL_LDL_nh)+power(ApoB_pl,ApoB_HDL_LDL_nh)))*(weight_CETP_HDL_LDL*power(CETP_pl,CETP_HDL_LDL_nh)/(power(CETP_HDL_LDL_EC50,CETP_HDL_LDL_nh)+power(CETP_pl,CETP_HDL_LDL_nh)))	
+Trans + CETP_pl + ApoB_pl -> LDL_pl + CETP_pl + ApoB_pl	HDL_to_LDL_exchange_rate_k*HDL_pl*chol_per_HDL_particle/chol_per_LDL_particle*(weight_ApoB_HDL_LDL*power(ApoB_pl,ApoB_HDL_LDL_nh)/(power(ApoB_HDL_LDL_EC50,ApoB_HDL_LDL_nh)+power(ApoB_pl,ApoB_HDL_LDL_nh)))*(weight_CETP_HDL_LDL*power(CETP_pl,CETP_HDL_LDL_nh)/(power(CETP_HDL_LDL_EC50,CETP_HDL_LDL_nh)+power(CETP_pl,CETP_HDL_LDL_nh)))	
+Chol_ic_P + ApoA1_pl -> Trans + ApoA1_pl	Chol_ic_P_to_HDL_pl_rate_k*Chol_ic_P*power(ApoA1_pl,ApoA1_RCT_nh)/(power(ApoA1_RCT_EC50,ApoA1_RCT_nh)+power(ApoA1_pl,ApoA1_RCT_nh))	
+Trans + ApoA1_pl -> HDL_pl + ApoA1_pl	Chol_ic_P_to_HDL_pl_rate_k*Chol_ic_P/chol_per_HDL_particle*power(ApoA1_pl,ApoA1_RCT_nh)/(power(ApoA1_RCT_EC50,ApoA1_RCT_nh)+power(ApoA1_pl,ApoA1_RCT_nh))	
+VLDL_pl + LDLR_cs_P -> Trans + LDLR_cs_P	VLDL_pl_P_uptake_rate_k*VLDL_pl+VLDL_pl_P_LDLRuptake_rate_k*LDLR_internalization_fraction_P*VLDL_pl*LDLR_cs_P	
+Trans + LDLR_cs_P -> Chol_ic_P + LDLR_cs_P	(VLDL_pl_P_uptake_rate_k*VLDL_pl+VLDL_pl_P_LDLRuptake_rate_k*LDLR_internalization_fraction_P*VLDL_pl*LDLR_cs_P)*chol_per_VLDL_particle	
+HDL_pl + ApoB_pl + CETP_pl -> Trans + ApoB_pl + CETP_pl	HDL_to_VLDL_exchange_rate_k*HDL_pl*(weight_ApoB_HDL_VLDL*power(ApoB_pl,ApoB_HDL_VLDL_nh)/(power(ApoB_HDL_VLDL_EC50,ApoB_HDL_VLDL_nh)+power(ApoB_pl,ApoB_HDL_VLDL_nh)))*(weight_CETP_HDL_VLDL*power(CETP_pl,CETP_HDL_VLDL_nh)/(power(CETP_HDL_VLDL_EC50,CETP_HDL_VLDL_nh)+power(CETP_pl,CETP_HDL_VLDL_nh)))	
+Trans + ApoB_pl + CETP_pl -> VLDL_pl + ApoB_pl + CETP_pl	HDL_to_VLDL_exchange_rate_k*HDL_pl*chol_per_HDL_particle/chol_per_VLDL_particle*(weight_ApoB_HDL_VLDL*power(ApoB_pl,ApoB_HDL_VLDL_nh)/(power(ApoB_HDL_VLDL_EC50,ApoB_HDL_VLDL_nh)+power(ApoB_pl,ApoB_HDL_VLDL_nh)))*(weight_CETP_HDL_VLDL*power(CETP_pl,CETP_HDL_VLDL_nh)/(power(CETP_HDL_VLDL_EC50,CETP_HDL_VLDL_nh)+power(CETP_pl,CETP_HDL_VLDL_nh)))	
+LDL_pl -> Trans	LDL_pl_LDLRind_P_uptake_rate_k*LDL_pl	
+Trans -> Chol_ic_P	LDL_pl_LDLRind_P_uptake_rate_k*LDL_pl*chol_per_LDL_particle	
+Calculation + VLDL_pl -> Conc_VLDL + VLDL_pl	calculation_switch*(convert_nmol_to_mmol*Chol_MW*chol_per_VLDL_particle*VLDL_pl/(volume_pl*convert_L_to_dL))	
+Calculation + Base_VLDL + Conc_VLDL -> PctCh_VLDL + Base_VLDL + Conc_VLDL	calculation_switch*(convert_frac_to_pct*(Conc_VLDL-Base_VLDL)/Base_VLDL)	
+Calculation + Conc_Chol_Tot + Conc_HDL -> TC_HDL + Conc_Chol_Tot + Conc_HDL	calculation_switch*(Conc_Chol_Tot/Conc_HDL)	
+Calculation + Statin_pl + StatinM_pl -> Conc_Statin + Statin_pl + StatinM_pl	calculation_switch*convert_nM_to_uM*(Statin_pl/Statin_Vd+StatinM_pl/StatinM_Vd)	
+MAb_PC9_2_pl -> Sink	MAb_PC9_2_kel*MAb_PC9_2_pl	
+MAb_PCSK9_pl + PCSK9_pl -> MAb_PC9_2_pl	MAb_PC9_2_association_rate_k*(MAb_PCSK9_pl/MAb_Vd)*(PCSK9_pl/volume_pl)*volume_pl	
+MAb_PC9_2_pl -> PCSK9_pl + MAb_PCSK9_pl	MAb_PC9_2_association_rate_k*MAb_PC9_2_Kd*MAb_PC9_2_pl	
+Source -> MAb_sc	piecewise(0,or(eq(MAb_dose_amount,0),ge(floor((Time_Sim-MAb_dose_start)/MAb_dose_interval),MAb_dose_cycles)),MAb_dose_amount/MAb_MW/convert_nmol_to_mmol/MAb_dose_duration,and(ge(Time_Sim,MAb_dose_start+ge(Time_Sim,MAb_dose_start)*floor((Time_Sim-MAb_dose_start)/MAb_dose_interval)*MAb_dose_interval),lt(Time_Sim,MAb_dose_start+MAb_dose_duration+ge(Time_Sim,MAb_dose_start)*floor((Time_Sim-MAb_dose_start)/MAb_dose_interval)*MAb_dose_interval)),0)+piecewise(0,or(eq(MAb_doseX_amount,0),ge(floor((Time_Sim-MAb_doseX_start)/MAb_doseX_interval),MAb_doseX_cycles)),MAb_doseX_amount/MAb_MW/convert_nmol_to_mmol/MAb_doseX_duration,and(ge(Time_Sim,MAb_doseX_start+ge(Time_Sim,MAb_doseX_start)*floor((Time_Sim-MAb_doseX_start)/MAb_doseX_interval)*MAb_doseX_interval),lt(Time_Sim,MAb_doseX_start+MAb_doseX_duration+ge(Time_Sim,MAb_doseX_start)*floor((Time_Sim-MAb_doseX_start)/MAb_doseX_interval)*MAb_doseX_interval)),0)	
+Source -> Statin_gi	piecewise(0,or(eq(Statin_dose_amount,0),ge(floor((Time_Sim-Statin_dose_start)/Statin_dose_interval),Statin_dose_cycles)),Statin_dose_amount/Statin_MW/convert_nmol_to_mmol/Statin_dose_duration,and(ge(Time_Sim,Statin_dose_start+ge(Time_Sim,Statin_dose_start)*floor((Time_Sim-Statin_dose_start)/Statin_dose_interval)*Statin_dose_interval),lt(Time_Sim,Statin_dose_start+Statin_dose_duration+ge(Time_Sim,Statin_dose_start)*floor((Time_Sim-Statin_dose_start)/Statin_dose_interval)*Statin_dose_interval)),0)+piecewise(0,or(eq(Statin_doseX_amount,0),ge(floor((Time_Sim-Statin_doseX_start)/Statin_doseX_interval),Statin_doseX_cycles)),Statin_doseX_amount/Statin_MW/convert_nmol_to_mmol/Statin_doseX_duration,and(ge(Time_Sim,Statin_doseX_start+ge(Time_Sim,Statin_doseX_start)*floor((Time_Sim-Statin_doseX_start)/Statin_doseX_interval)*Statin_doseX_interval),lt(Time_Sim,Statin_doseX_start+Statin_doseX_duration+ge(Time_Sim,Statin_doseX_start)*floor((Time_Sim-Statin_doseX_start)/Statin_doseX_interval)*Statin_doseX_interval)),0)	
+PCSK9_pl -> PCSK9_en_P	PCSK9_pl_P_uptake_rate_k*PCSK9_pl	
+Calculation + PCSK9_pl + MAb_PCSK9_pl + MAb_PC9_2_pl -> Conc_PC9_Tot + PCSK9_pl + MAb_PCSK9_pl + MAb_PC9_2_pl	calculation_switch*((PCSK9_pl+MAb_PCSK9_pl+MAb_PC9_2_pl)/volume_pl)	
+Calculation + Chol_ic_P -> Chol_er_P + Chol_ic_P	calculation_switch*Chol_er_P_base*power(exp((Chol_ic_P-Chol_ic_P_base)/Chol_ic_P_base),Chol_er_exp)	
+Statin_pl -> StatinM_pl	Statin_kmet*Statin_pl	
+Statin_pl -> Statin_pc	Statin_pl_to_pc_rate_k*Statin_pl	
+Statin_pc -> Statin_pl	Statin_pc_to_pl_rate_k*Statin_pc	
+StatinM_pl -> Sink	StatinM_kel*StatinM_pl	
