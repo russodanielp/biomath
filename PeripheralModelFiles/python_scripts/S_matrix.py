@@ -116,7 +116,28 @@ S = Matrix(S.values)
 nullspace = S.nullspace()
 
 m = []
+
+
 for each in nullspace:
     new_list = [i[0] for i in each.tolist()]
     m.append(new_list)
+
+
+
+null_sum = sympify('a{}'.format(1)) * nullspace[0]
+for i in range(1, len(nullspace)):
+    a = sympify('a{}'.format(i+1))
+    null_sum = null_sum + (a * nullspace[i])
+
+for param in null_sum:
+    print(param)
+
+
+null_sum_list = []
+for each in null_sum.tolist():
+    null_sum_list.append(each[0])
+
+print(null_sum_list)
+pd.DataFrame(null_sum_list).to_csv('../text_files/nullsum.csv')
+
 pd.DataFrame(m).T.to_csv('../text_files/nullspace.csv')
