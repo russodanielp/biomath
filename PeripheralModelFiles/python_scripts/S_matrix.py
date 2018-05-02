@@ -1,6 +1,6 @@
 from sympy import sympify, Matrix
 import pandas as pd
-
+from maps import flux_map
 
 x = [''] + [sympify('x{}'.format(i)) for i in range(1, 28+1)]
 f = [''] + [sympify('f{}'.format(i)) for i in range(1, 56+1)]
@@ -119,8 +119,6 @@ S = Matrix(S.values)
 nullspace = S.nullspace()
 
 
-print(len(nullspace))
-
 m = []
 
 
@@ -143,63 +141,7 @@ for each in null_sum.tolist():
 pd.DataFrame(m).T.to_csv('../text_files/nullspace.csv')
 
 # create a map to get function names
-flux_map = {
-            1:'Time_Sim_production_rate_k',
-            2:'MAb_PCSK9_kel',
-            3:'MAb_PCSK9_association_rate_k',
-            4:'MAb_PCSK9_association_rate_k*MAb_PCSK9_Kd',
-            5:'MAb_kel',
-            6:'Statin_Ka',
-            7:'Statin_Ka*Statin_F',
-            8:'Statin_kel',
-            9:'LDLR_ic_P_production_rate_k',
-            10:'LDLR_ic_to_cs_P_trafficking_rate_k',
-            11:'SREBP_ic_P_production_rate_k',
-            12:'SREBP_ic_P_degradation_rate_k',
-            13:'SREBP_ic_to_nu_P_activation_rate_k',
-            14:'LDLR_P_internalization_rate_k',
-            15:'LDLR_P_recycling_rate_k',
-            16:'LDL_LDLR_pl_association_rate_k',
-            17:'LDL_LDLR_pl_association_rate_k*LDL_LDLR_pl_Kd',
-            18:'PCSK9_LDLR_pl_association_rate_k',
-            19:'PCSK9_LDLR_pl_association_rate_k*PCSK9_LDLR_pl_Kd',
-            20:'LDL_LDLR_en_association_rate_k',
-            21:'LDL_LDLR_en_association_rate_k*LDL_LDLR_en_Kd',
-            22:'PCSK9_LDLR_en_association_rate_k',
-            23:'PCSK9_LDLR_en_association_rate_k*PCSK9_LDLR_en_Kd',
-            24:'LDLR_en_P_degradation_rate_k',
-            25:'PCSK9_en_P_degradation_rate_k',
-            26:'LDL_LDLR_P_internalization_rate_k',
-            27:'PC9_LDLR_P_internalization_rate_k',
-            28:'ApoB_pl_clearance_rate_k',
-            29:'ApoA1_pl_clearance_rate_k',
-            30:'PCSK9_pl_clearance_rate_k',
-            31:'Statin_Ka*(1-Statin_F)',
-            32:'MAb_Ka',
-            33:'MAb_Ka*MAb_F',
-            34:'MAb_Ka*(1-MAb_F)',
-            35:'PC9_LDLR_en_P_degradation_rate_k',
-            36:'Chol_ic_P_production_rate_k',
-            37:'Chol_ic_P_elimination_rate_k',
-            38:'SREBP_nu_P_degradation_rate_k',
-            39:'LDL_en_to_Chol_ic_P_rate_k',
-            40:'VLDL_to_LDL_conversion_rate_k',
-            41:'HDL_to_LDL_exchange_rate_k',
-            42:'Chol_ic_P_to_HDL_pl_rate_k',
-            43:'VLDL_pl_P_uptake_rate_k',
-            44:'HDL_to_VLDL_exchange_rate_k',
-            45:'LDL_pl_LDLRind_P_uptake_rate_k',
-            46:'MAb_PC9_2_kel',
-            47:'MAb_PC9_2_association_rate_k',
-            48:'MAb_PC9_2_association_rate_k*MAb_PC9_2_Kd',
-            49:'0',
-            50:'0',
-            51:'PCSK9_pl_P_uptake_rate_k',
-            52:'Statin_kmet',
-            53:'Statin_pl_to_pc_rate_k',
-            54:'Statin_pc_to_pl_rate_k',
-            55:'StatinM_kel',
-            56:'VLDL_pl_P_LDLRuptake_rate_k'}
+
 
 f = open('../text_files/nullsum.txt', 'w')
 for i, param in enumerate(null_sum):
