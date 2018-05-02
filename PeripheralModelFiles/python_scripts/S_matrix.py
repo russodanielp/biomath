@@ -3,14 +3,14 @@ import pandas as pd
 
 
 x = [''] + [sympify('x{}'.format(i)) for i in range(1, 28+1)]
-f = [''] + [sympify('f{}'.format(i)) for i in range(1, 63+1)]
+f = [''] + [sympify('f{}'.format(i)) for i in range(1, 56+1)]
 v = [''] + [sympify('v{}'.format(i)) for i in range(1, 3+1)]
 k = [''] + [sympify('k{}'.format(i)) for i in range(1, 3+1)]
 p = [''] + [sympify('p{}'.format(i)) for i in range(1, 35+1)]
 c = [''] + [sympify('c{}'.format(i)) for i in range(1, 2+1)]
 
 
-S = pd.DataFrame(index=list(range(1, 28+1)), columns=list(range(1, 63+1)))
+S = pd.DataFrame(index=list(range(1, 28+1)), columns=list(range(1, 56+1)))
 
 S.loc[1, 54] = x[27]
 S.loc[1, 52] = -x[1]
@@ -51,7 +51,7 @@ S.loc[10, 37] = -x[10]
 S.loc[10, 39] = x[20] * k[3]
 S.loc[10, 45] = x[25] * k[3]
 S.loc[10, 42] = -(x[9] ** p[2] * x[10]) / (x[9] ** p[2] + p[1] ** p[2])
-S.loc[10, 36] = -(x[22]**p[21]*((p[24]*abs(c[1])**p[25])/(p[26]**p[25] + abs(c[1])**p[25]) - 1))/(x[22]**p[21] + p[20]**p[21])
+S.loc[10, 36] = -(x[22] ** p[21] * ((p[24] * abs(c[1]) ** p[25]) / (p[26] ** p[25] + abs(c[1]) ** p[25]) - 1)) / (x[22] ** p[21] + p[20] ** p[21])
 S.loc[11, 28] = -x[11]
 S.loc[12, 15] = x[15]
 S.loc[12, 10] = x[16]
@@ -97,7 +97,8 @@ S.loc[22, 13] = -x[21] * ((p[35] ** p[15] * p[14]) / (p[35] ** p[15] + p[12] ** 
 S.loc[23, 33] = -x[23]
 S.loc[23, 34] = -x[23]
 S.loc[24, 47] = (x[4] * x[3]) / p[34]
-S.loc[24, 48] = -x[24] - x[24] * f[46]
+S.loc[24, 48] = -x[24]
+S.loc[24, 46] = -x[24]
 S.loc[25, 17] = x[13]
 S.loc[25, 45] = -x[25]
 S.loc[25, 16] = -(x[25] * x[12]) / v[1]
@@ -108,12 +109,17 @@ S.loc[26, 55] = -x[26]
 S.loc[27, 53] = x[1]
 S.loc[27, 54] = -x[27]
 
-
 S.fillna(sympify(0), inplace=True)
 
+
+print(S.shape)
 S = Matrix(S.values)
 
+
 nullspace = S.nullspace()
+
+
+print(len(nullspace))
 
 m = []
 
@@ -133,10 +139,6 @@ for i in range(1, len(nullspace)):
 null_sum_list = []
 for each in null_sum.tolist():
     null_sum_list.append(each[0])
-
-print(len(null_sum_list))
-
-pd.DataFrame(null_sum_list).to_csv('../text_files/nullsum.csv')
 
 pd.DataFrame(m).T.to_csv('../text_files/nullspace.csv')
 
@@ -199,10 +201,11 @@ flux_map = {
             55:'StatinM_kel',
             56:'VLDL_pl_P_LDLRuptake_rate_k'}
 
-
+f = open('../text_files/nullsum.txt', 'w')
 for i, param in enumerate(null_sum):
     idx = i+1
     expression = str(param)
-    if len(expression) > 1 and len(expression) <= 4:
-        if expression[0] == 'a' or expression[1] == 'a':
-            print(expression, flux_map.get(idx, ''))
+    flux = flux_map[idx]
+    f.write(expression + '\t' +  flux + '\n')
+f.close()
+
