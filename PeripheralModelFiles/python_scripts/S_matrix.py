@@ -1,4 +1,4 @@
-from sympy import sympify, Matrix
+from sympy import sympify, Matrix, simplify
 import pandas as pd
 from maps import flux_map
 
@@ -19,10 +19,10 @@ S.loc[1, 51] = -x[1]
 S.loc[1, 6] = x[6]
 S.loc[2, 1] = 1
 S.loc[3, 4] = x[4]
-S.loc[3, 2] = -x[3]
+S.loc[3, 29] = -x[3]
 S.loc[3, 49] = -x[3]
 S.loc[3, 46] = x[24]
-S.loc[3, 1] = x[17]
+S.loc[3, 18] = x[17]
 S.loc[3, 17] = -(x[12] * x[3]) / v[1]
 S.loc[3, 3] = -(x[5] * x[3]) / p[34]
 S.loc[3, 4] = -(x[4] * x[3]) / p[34]
@@ -151,7 +151,7 @@ for each in null_sum:
 f = open('../text_files/nullsum.txt', 'w')
 for i, param in enumerate(null_sum):
     idx = i+1
-    expression = str(param)
+    expression = str(simplify(param))
     flux = flux_map[idx]
     f.write(expression + '\t' +  flux + '\n')
 f.close()
