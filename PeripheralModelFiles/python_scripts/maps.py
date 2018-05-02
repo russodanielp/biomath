@@ -100,7 +100,7 @@ k_map = {
 }
 
 p_map ={
-    
+
     1 : 'ApoA1_RCT_EC50',
     2 : 'ApoA1_RCT_nh',
     3 : 'ApoB_HDL_LDL_EC50',
