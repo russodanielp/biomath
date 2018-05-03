@@ -1,54 +1,54 @@
-0	Time_Sim_production_rate_k
-(-2*a20*x3*x4 + p34*(-a10*x3 + 2*a21*x24 - a24*x3 - a9*p19*x17))/(p34*x4)	MAb_PCSK9_kel
-(p34*(a1*x4 + a21*x24 - a9*p19*x17) - x3*(a10*p34 + a20*x4 + a24*p34))/(x3*x5)	MAb_PCSK9_association_rate_k
-a1	MAb_PCSK9_association_rate_k*MAb_PCSK9_Kd
-(a20*x3*x4 + p34*(a10*x3 - a12*x23 - a21*x24 + a22 + a24*x3 + a9*p19*x17))/(p34*x5)	MAb_kel
--a11 + a23/x6	Statin_Ka
-(-a11*x6 + a23 - a26*x26)/x1	Statin_Ka*Statin_F
-x22**(-p23)*(p22**p23 + x22**p23)*(a13*x18 + a8*x15)	Statin_kel
-(a13*x18 + a8*x15)/x16	LDLR_ic_P_production_rate_k
-a15*x22 + a2*x21	LDLR_ic_to_cs_P_trafficking_rate_k
-a2	SREBP_ic_P_production_rate_k
-a15*x22*(p12**p15 + p35**p15)/(x21*(p12**p15 - p14*p35**p15 + p35**p15))	SREBP_ic_P_degradation_rate_k
-x11**(-p4)*x28**(-p8)*(-a16*x10*x11**p4*x28**p8*x9**p2*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) + a17*k2*x11**p4*x28**p8*x7*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10) + a18*c2**p18*k1*p17*p28*p30*x11**(p4 + p6)*x28**(p10 + p8)*x8*(p1**p2 + x9**p2) + a27*k2*p19*x11**p4*x12*x28**p8*x7*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10) - a9*k3*p19*x11**p4*x17*x28**p8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) + k3*x11**p4*x28**p8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18)*(a13*x18 + a19*x25 + a3*x15 + a8*x15))/(k3*p19*x12*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	SREBP_ic_to_nu_P_activation_rate_k
-a3	LDLR_P_internalization_rate_k
-v1*x11**(-p4)*x28**(-p8)*(a16*x10*x11**p4*x28**p8*x9**p2*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a17*k2*x11**p4*x28**p8*x7*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10) - a18*c2**p18*k1*p17*p28*p30*x11**(p4 + p6)*x28**(p10 + p8)*x8*(p1**p2 + x9**p2) - a19*k3*x11**p4*x25*x28**p8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a27*k2*p19*x11**p4*x12*x28**p8*x7*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10) + a4*k3*x11**p4*x13*x28**p8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18))/(k3*x12*x25*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	LDLR_P_recycling_rate_k
-a4	LDL_LDLR_pl_association_rate_k
-v1*x17*(a5 + a9*p19)/(x12*x3)	LDL_LDLR_pl_association_rate_k*LDL_LDLR_pl_Kd
-a5	PCSK9_LDLR_pl_association_rate_k
-v3*x11**(-p4)*x28**(-p8)*(-a16*x10*x11**p4*x28**p8*x9**p2*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) + a18*c2**p18*k1*p17*p28*p30*x11**(p4 + p6)*x28**(p10 + p8)*x8*(p1**p2 + x9**p2) + k2*x11**p4*x28**p8*x7*(a17 + a27*p19*x12)*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10) + k3*x11**p4*x28**p8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(a19*x25 + a6*x14)*(c2**p18*p17 + c2**p18 + p16**p18))/(k3*x15*x20*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	PCSK9_LDLR_pl_association_rate_k*PCSK9_LDLR_pl_Kd
-a6	LDL_LDLR_en_association_rate_k
-v3*(a13*x18 + a7*x18 - a9*p19*x17)/(x15*x19)	LDL_LDLR_en_association_rate_k*LDL_LDLR_en_Kd
-a7	PCSK9_LDLR_en_association_rate_k
-a8	PCSK9_LDLR_en_association_rate_k*PCSK9_LDLR_en_Kd
-(-a13*x18 + a24*x3 + a9*p19*x17)/x19	LDLR_en_P_degradation_rate_k
-x11**(-p4)*x28**(-p8)*(a16*x10*x11**p4*x28**p8*x9**p2*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a17*k2*x11**p4*x28**p8*x7*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10) - a18*c2**p18*k1*p17*p28*p30*x11**(p4 + p6)*x28**(p10 + p8)*x8*(p1**p2 + x9**p2) - a19*k3*x11**p4*x25*x28**p8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a27*k2*p19*x11**p4*x12*x28**p8*x7*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10))/(k3*p19*x13*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	PCSK9_en_P_degradation_rate_k
-a9	LDL_LDLR_P_internalization_rate_k
+(-2*a20*x2*x3 + p34*(-a10*x2 + 2*a21*x23 - a24*x2 - a9*p19*x16))/(p34*x3)	Time_Sim_production_rate_k
+(p34*(a1*x3 + a21*x23 - a9*p19*x16) - x2*(a10*p34 + a20*x3 + a24*p34))/(x2*x4)	MAb_PCSK9_kel
+a1	MAb_PCSK9_association_rate_k
+(a20*x2*x3 + p34*(a10*x2 - a12*x22 - a21*x23 + a22 + a24*x2 + a9*p19*x16))/(p34*x4)	MAb_PCSK9_association_rate_k*MAb_PCSK9_Kd
+-a11 + a23/x5	MAb_kel
+(-a11*x5 + a23 - a26*x25)/x1	Statin_Ka
+x21**(-p23)*(p22**p23 + x21**p23)*(a13*x17 + a8*x14)	Statin_Ka*Statin_F
+(a13*x17 + a8*x14)/x15	Statin_kel
+a15*x21 + a2*x20	LDLR_ic_P_production_rate_k
+a2	LDLR_ic_to_cs_P_trafficking_rate_k
+a15*x21*(p12**p15 + p35**p15)/(x20*(p12**p15 - p14*p35**p15 + p35**p15))	SREBP_ic_P_production_rate_k
+x10**(-p4)*x27**(-p8)*(-a16*x10**p4*x27**p8*x8**p2*x9*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) + a17*k2*x10**p4*x27**p8*x6*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10) + a18*c2**p18*k1*p17*p28*p30*x10**(p4 + p6)*x27**(p10 + p8)*x7*(p1**p2 + x8**p2) + a27*k2*p19*x10**p4*x11*x27**p8*x6*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10) - a9*k3*p19*x10**p4*x16*x27**p8*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) + k3*x10**p4*x27**p8*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18)*(a13*x17 + a19*x24 + a3*x14 + a8*x14))/(k3*p19*x11*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	SREBP_ic_P_degradation_rate_k
+a3	SREBP_ic_to_nu_P_activation_rate_k
+v1*x10**(-p4)*x27**(-p8)*(a16*x10**p4*x27**p8*x8**p2*x9*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a17*k2*x10**p4*x27**p8*x6*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10) - a18*c2**p18*k1*p17*p28*p30*x10**(p4 + p6)*x27**(p10 + p8)*x7*(p1**p2 + x8**p2) - a19*k3*x10**p4*x24*x27**p8*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a27*k2*p19*x10**p4*x11*x27**p8*x6*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10) + a4*k3*x10**p4*x12*x27**p8*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18))/(k3*x11*x24*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	LDLR_P_internalization_rate_k
+a4	LDLR_P_recycling_rate_k
+v1*x16*(a5 + a9*p19)/(x11*x2)	LDL_LDLR_pl_association_rate_k
+a5	LDL_LDLR_pl_association_rate_k*LDL_LDLR_pl_Kd
+v3*x10**(-p4)*x27**(-p8)*(-a16*x10**p4*x27**p8*x8**p2*x9*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) + a18*c2**p18*k1*p17*p28*p30*x10**(p4 + p6)*x27**(p10 + p8)*x7*(p1**p2 + x8**p2) + k2*x10**p4*x27**p8*x6*(a17 + a27*p19*x11)*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10) + k3*x10**p4*x27**p8*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(a19*x24 + a6*x13)*(c2**p18*p17 + c2**p18 + p16**p18))/(k3*x14*x19*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	PCSK9_LDLR_pl_association_rate_k
+a6	PCSK9_LDLR_pl_association_rate_k*PCSK9_LDLR_pl_Kd
+v3*(a13*x17 + a7*x17 - a9*p19*x16)/(x14*x18)	LDL_LDLR_en_association_rate_k
+a7	LDL_LDLR_en_association_rate_k*LDL_LDLR_en_Kd
+a8	PCSK9_LDLR_en_association_rate_k
+(-a13*x17 + a24*x2 + a9*p19*x16)/x18	PCSK9_LDLR_en_association_rate_k*PCSK9_LDLR_en_Kd
+x10**(-p4)*x27**(-p8)*(a16*x10**p4*x27**p8*x8**p2*x9*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a17*k2*x10**p4*x27**p8*x6*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10) - a18*c2**p18*k1*p17*p28*p30*x10**(p4 + p6)*x27**(p10 + p8)*x7*(p1**p2 + x8**p2) - a19*k3*x10**p4*x24*x27**p8*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a27*k2*p19*x10**p4*x11*x27**p8*x6*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10))/(k3*p19*x12*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	LDLR_en_P_degradation_rate_k
+a9	PCSK9_en_P_degradation_rate_k
+0	LDL_LDLR_P_internalization_rate_k
 0	PC9_LDLR_P_internalization_rate_k
-0	ApoB_pl_clearance_rate_k
-a10	ApoA1_pl_clearance_rate_k
-a11	PCSK9_pl_clearance_rate_k
--a12 + a22/x23	Statin_Ka*(1-Statin_F)
-a12	MAb_Ka
-a13	MAb_Ka*MAb_F
-x11**(-p4)*x22**(-p21)*x28**(-p8)*(p20**p21 + x22**p21)*(p26**p25 + Abs(c1)**p25)*(-a14*x10*x11**p4*x28**p8*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a18*c2**p18*k1*p17*p28*p30*x11**(p4 + p6)*x28**(p10 + p8)*x8 + x11**p4*x28**p8*x7*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(a17*c2**p18*k2*p17 - a27*p19*x12*(-c2**p18*p17 - c2**p18 + k2*(c2**p18 + p16**p18) - p16**p18)))/((p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18)*(p24*Abs(c1)**p25 - p26**p25 - Abs(c1)**p25))	MAb_Ka*(1-MAb_F)
-a14	PC9_LDLR_en_P_degradation_rate_k
-a15	Chol_ic_P_production_rate_k
-x11**(-p4)*x28**(-p8)*(a16*x10*x11**p4*x28**p8*x9**p2*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a18*c2**p18*k1*p17*p28*p30*x11**(p4 + p6)*x28**(p10 + p8)*x8*(p1**p2 + x9**p2) - a19*k3*x11**p4*x25*x28**p8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - k2*x11**p4*x28**p8*x7*(a17 + a27*p19*x12)*(c2**p18 + p16**p18)*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10))/(k3*x20*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	Chol_ic_P_elimination_rate_k
-(c2**p18 + p16**p18)*(a18*k1*p28*p30*x11**p6*x28**p10*x8 - k2*x7*(a17 + a27*p19*x12)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10))/(k2*x7*(p5**p6 + x11**p6)*(p9**p10 + x28**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	SREBP_nu_P_degradation_rate_k
-x11**(-2*p4)*x28**(-2*p8)*(p3**p4 + x11**p4)*(p7**p8 + x28**p8)*(a16*x10*x11**p4*x28**p8*x9**p2*(p5**p6 + x11**p6)*(p9**p10 + x28**p10) - a18*k1*p28*p30*x11**(p4 + p6)*x28**(p10 + p8)*x8*(p1**p2 + x9**p2))/(k1*p27*p29*x8*(p1**p2 + x9**p2)*(p5**p6 + x11**p6)*(p9**p10 + x28**p10))	LDL_en_to_Chol_ic_P_rate_k
-a16	VLDL_to_LDL_conversion_rate_k
-a17	HDL_to_LDL_exchange_rate_k
-a18	Chol_ic_P_to_HDL_pl_rate_k
-a19	VLDL_pl_P_uptake_rate_k
-a20*x3*x4/(p34*x24) - a21	HDL_to_VLDL_exchange_rate_k
-a20	LDL_pl_LDLRind_P_uptake_rate_k
-a21	MAb_PC9_2_kel
-a22	MAb_PC9_2_association_rate_k
-a23	MAb_PC9_2_association_rate_k*MAb_PC9_2_Kd
-a24	0
-a26*x26/x1	0
-a25*x27/x1	PCSK9_pl_P_uptake_rate_k
-a25	Statin_kmet
-a26	Statin_pl_to_pc_rate_k
-a27	Statin_pc_to_pl_rate_k
+a10	ApoB_pl_clearance_rate_k
+a11	ApoA1_pl_clearance_rate_k
+-a12 + a22/x22	PCSK9_pl_clearance_rate_k
+a12	Statin_Ka*(1-Statin_F)
+a13	MAb_Ka
+x10**(-p4)*x21**(-p21)*x27**(-p8)*(p20**p21 + x21**p21)*(p26**p25 + Abs(c1)**p25)*(-a14*x10**p4*x27**p8*x9*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a18*c2**p18*k1*p17*p28*p30*x10**(p4 + p6)*x27**(p10 + p8)*x7 + x10**p4*x27**p8*x6*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(a17*c2**p18*k2*p17 - a27*p19*x11*(-c2**p18*p17 - c2**p18 + k2*(c2**p18 + p16**p18) - p16**p18)))/((p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18)*(p24*Abs(c1)**p25 - p26**p25 - Abs(c1)**p25))	MAb_Ka*MAb_F
+a14	MAb_Ka*(1-MAb_F)
+a15	PC9_LDLR_en_P_degradation_rate_k
+x10**(-p4)*x27**(-p8)*(a16*x10**p4*x27**p8*x8**p2*x9*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - a18*c2**p18*k1*p17*p28*p30*x10**(p4 + p6)*x27**(p10 + p8)*x7*(p1**p2 + x8**p2) - a19*k3*x10**p4*x24*x27**p8*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18) - k2*x10**p4*x27**p8*x6*(a17 + a27*p19*x11)*(c2**p18 + p16**p18)*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10))/(k3*x19*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	Chol_ic_P_production_rate_k
+(c2**p18 + p16**p18)*(a18*k1*p28*p30*x10**p6*x27**p10*x7 - k2*x6*(a17 + a27*p19*x11)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10))/(k2*x6*(p5**p6 + x10**p6)*(p9**p10 + x27**p10)*(c2**p18*p17 + c2**p18 + p16**p18))	Chol_ic_P_elimination_rate_k
+x10**(-2*p4)*x27**(-2*p8)*(p3**p4 + x10**p4)*(p7**p8 + x27**p8)*(a16*x10**p4*x27**p8*x8**p2*x9*(p5**p6 + x10**p6)*(p9**p10 + x27**p10) - a18*k1*p28*p30*x10**(p4 + p6)*x27**(p10 + p8)*x7*(p1**p2 + x8**p2))/(k1*p27*p29*x7*(p1**p2 + x8**p2)*(p5**p6 + x10**p6)*(p9**p10 + x27**p10))	SREBP_nu_P_degradation_rate_k
+a16	LDL_en_to_Chol_ic_P_rate_k
+a17	VLDL_to_LDL_conversion_rate_k
+a18	HDL_to_LDL_exchange_rate_k
+a19	Chol_ic_P_to_HDL_pl_rate_k
+a20*x2*x3/(p34*x23) - a21	VLDL_pl_P_uptake_rate_k
+a20	HDL_to_VLDL_exchange_rate_k
+a21	LDL_pl_LDLRind_P_uptake_rate_k
+a22	MAb_PC9_2_kel
+a23	MAb_PC9_2_association_rate_k
+a24	MAb_PC9_2_association_rate_k*MAb_PC9_2_Kd
+a26*x25/x1	0
+a25*x26/x1	0
+a25	PCSK9_pl_P_uptake_rate_k
+a26	Statin_kmet
+a27	Statin_pl_to_pc_rate_k
+a28	Statin_pc_to_pl_rate_k
