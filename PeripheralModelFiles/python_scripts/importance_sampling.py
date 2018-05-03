@@ -1,8 +1,11 @@
 import pandas as pd
+from scipy.stats import lognorm
 from S_matrix_symbols import null_sum, x
+import sympy as sy
 from symbols import all_symbols, flux_symbols
 from maps import maps, flux_map
 import numpy as np
+import math
 
 from sympy import sympify
 patient_fluxes = pd.read_csv('../SNL005_VP2.txt', sep=' ', index_col=0)
@@ -10,46 +13,122 @@ initial_conc = pd.read_csv('../species.csv', sep=',', index_col=0)
 
 all_names = []
 
+
 flux_dictionary = patient_fluxes.to_dict()['1']
 
 dictionary = {**flux_dictionary, **initial_conc.to_dict()['0']}
+a_dictionary = {
+                'a1' : 0.36*0.6,
+                'a2' : 0.693,
+                'a3' : 8.3,
+                'a4' : 0.36*2000,
+                'a5' : 0.36*350,
+                'a6' : 0.36*4000,
+                'a7' : 0.36*10,
+                'a8' : 0.0219,
+                'a9' : 8.3,
+                'a10' : 0.1,
+                'a11' : 1*(1-0.14),
+                'a12' : 0.025*(1-0.6),
+                'a13' : 0.1,
+                'a14' : 0,
+                'a15' : 0.693,
+                'a16' : 0.000577,
+                'a17' : 0,
+                'a18' : 0.0238,
+                'a19' : 0.00034,
+                'a20' : 0.36,
+                'a21' : 0.36*0.6,
+                'a22' : 0,
+                'a23' : 0,
+                'a24' : 0,
+                'a25' : 0.333 ,
+                'a26' : 0.5,
+                'a27' : 0}
 
 
-##### DOSING WTF???? #####
-MAb_dose = 1
-Statin_dose = 1
-dictionary['MAb_dose'] = MAb_dose
-dictionary['Statin_dose'] = Statin_dose
 
-# find which coefficients correspond to which fluxes
 
-a = ['a{}'.format(i) for i in range(1, 54+1)]
+target_a = 'a2'
 
-flux_names = [flux_map[i] for i in range(1, 54+1)]
-
-a_dictionary = {}
-
-for a_i in range(1, 54+1):
-    flux_for_a_i = flux_symbols[a_i].subs(dictionary)
-    a_dictionary['a{}'.format(a_i)] = flux_for_a_i
 
 dictionary = {**dictionary, **a_dictionary}
 
-target_flux = 'a1'
-sigma = 1
-size = 10
 
-means = np.array(['a{}'.format(a_i) for a_i in range(1, 54+1)])
+fluxes_dependent_on_target = []
+for col in null_sum:
+    if sy.Symbol(target_a) in col.free_symbols:
+        fluxes_dependent_on_target.append(col)
 
-lognormal_distribution = np.random.lognormal(a_dictionary[target_flux], sigma, size)
+##### DOSING WTF???? #####
+# MAb_dose = 0
+# Statin_dose = 0
+# dictionary['MAb_dose'] = MAb_dose
+# dictionary['Statin_dose'] = Statin_dose
 
-for new_a in lognormal_distribution:
-    #fill the new_a in the
-    dictionary[target_flux] = new_a
+# find which coefficients correspond to which fluxes
 
 
-    # recalculate fluxes
-    results = np.nan_to_num(np.array([col if col != np.nan else 0 for col in null_sum.subs(dictionary)],  dtype=np.float64))
 
-    good_results = (results >= 0).sum()
-    print(good_results/len(results))
+expected_fluxes = np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
+print(expected_fluxes)
+max_iterations = 100
+h = .01
+
+alpha = 1
+beta = 1
+max_penalty = 1e+01
+
+num_flux = len(fluxes_dependent_on_target)
+
+v_step = 100
+a_log = np.zeros((max_iterations,v_step+1))
+
+mu = np.zeros((max_iterations,1))
+sig = np.zeros((max_iterations,1))
+V = np.zeros((max_iterations,1))
+extrema_count = np.zeros((max_iterations,1))
+extrema_ratio = np.zeros((max_iterations,1))
+
+p_epsilon = 1e-2
+possible_extrema = num_flux*(v_step+1)
+
+
+M =  a_dictionary[target_a]
+NewVariance = 1e-2*M
+
+
+for m in range(max_iterations):
+    V[m] = NewVariance
+    mu[m] = math.log((M**2)/math.sqrt(V[m]+M**2))
+    sig[m] = math.sqrt(math.log(V[m]/(M**2)+1))
+
+    initial_cost_step = lognorm(mu[m], sig[m]).ppf(0.025)
+    final_cost_step = lognorm(mu[m], sig[m]).ppf(0.975)
+    delta_v = (final_cost_step - initial_cost_step) / v_step
+
+    for n in range(v_step + 1):
+
+        a_log[m, n] = initial_cost_step + (n - 1) * delta_v
+        dictionary[target_a] = a_log[m, n]
+
+        new_fluxes =  np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
+
+        extrema_count[m] = extrema_count[m] + ((new_fluxes < (0.5*expected_fluxes))| (new_fluxes > (1.5*expected_fluxes))).sum()
+    extrema_ratio[m] = extrema_count[m] / possible_extrema
+    print()
+    if extrema_ratio[m] > 0.051:
+        NewVariance = V[m] - h
+    elif extrema_ratio[m] < 0.049:
+        NewVariance = V[m] + h
+    else:
+        break
+
+print('There are %d out of %d extreme flux values. Ratio is %.4f'.format(extrema_count[m], possible_extrema, extrema_ratio[m]))
+
+
+
+
+
+
+
