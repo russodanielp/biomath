@@ -1,4 +1,4 @@
-from sympy import sympify, Matrix
+from sympy import sympify, Matrix, simplify
 import pandas as pd
 from symbols import flux_symbols, metabolite_symbols, volume_symbols, p_symbols, k_symbols, c_symbols
 
@@ -6,14 +6,14 @@ from symbols import flux_symbols, metabolite_symbols, volume_symbols, p_symbols,
 # names  this makes
 
 x = [''] + [metabolite_symbols[i] for i in range(1, 27+1)]
-f = [''] + [flux_symbols[i] for i in range(1, 54+1)]
+f = [''] + [flux_symbols[i] for i in range(1, 53+1)]
 v = [''] + [volume_symbols[i] for i in range(1, 3+1)]
 k = [''] + [k_symbols[i] for i in range(1, 3+1)]
 p = [''] + [p_symbols[i] for i in range(1, 35+1)]
 c = [''] + [c_symbols[i] for i in range(1, 2+1)]
 
 
-S = pd.DataFrame(index=list(range(1, 27+1)), columns=list(range(1, 54+1)))
+S = pd.DataFrame(index=list(range(1, 26+1)), columns=list(range(1, 53+1)))
 
 S.loc[1, 51] = x[26]
 S.loc[1, 49] = -x[1]
@@ -113,20 +113,56 @@ S.loc[25, 52] = -x[25]
 S.loc[26, 50] = x[1]
 S.loc[26, 51] = -x[26]
 
-S.fillna(sympify(0), inplace=True)
+S.fillna(0, inplace=True)
 
-S = Matrix(S.values)
+# S = Matrix(S.values)
+
+S1 = S[~S.index.isin([1,3,4,5,22,23,25,26])]
+S2 = S1.loc[:, ~S.columns.isin([1,4,5,6,29,30,31,43,46,47,49,50,51,52])]
+S3 = pd.concat([S2.iloc[:, 2:35], S2.iloc[:, 37:38], S2.iloc[:, 38:39]], axis=1)
+# S = Matrix(S3.values)
+
+# nullspace = S.nullspace()
+#
+#
+# null_sum = sympify('a{}'.format(1)) * nullspace[0]
+# for i in range(1, len(nullspace)):
+#     a = sympify('a{}'.format(i+1))
+#     null_sum = null_sum + (a * nullspace[i])
+
+def remove_drugs(expression):
+    expression = str(expression)
+    if 'statin' in expression.lower() or 'mab' in expression.lower():
+
+        return 0
+    else:
+        return expression
+
+new_S = S.applymap(remove_drugs)
+
+
+S = Matrix(new_S.values)
 
 
 nullspace = S.nullspace()
-
-
 
 
 null_sum = sympify('a{}'.format(1)) * nullspace[0]
 for i in range(1, len(nullspace)):
     a = sympify('a{}'.format(i+1))
     null_sum = null_sum + (a * nullspace[i])
+
+# f = open('../text_files/nullsum.txt', 'w')
+# for i, param in enumerate(null_sum):
+#     idx = i+1
+#     expression = str(simplify(param))
+#     f.write(expression + '\n')
+# f.close()
+# print(len(nullspace))
+# for i, each in enumerate(null_sum):
+#     print(i+1, simplify(each))
+
+
 
 
 # m = []

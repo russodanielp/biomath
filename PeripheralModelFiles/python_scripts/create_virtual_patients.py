@@ -1,9 +1,9 @@
-from S_matrix_symbols import null_sum
+from S_matrix_symbols import null_sum, flux_symbols
 import pandas as pd
 from scipy.stats import lognorm
 import numpy as np
 
-num_patients = 10
+num_patients = 20
 
 list_of_target_coefficients = ['a2', 'a7']
 
@@ -69,7 +69,7 @@ for vp in range(num_patients):
     solved_fluxes = null_sum.subs({**dictionary, **vp_coefficients})
     fluxes = {}
     for i, flux in enumerate(solved_fluxes):
-        fluxes['f{}'.format(i)] = flux
+        fluxes[str(flux_symbols[i+1])] = flux
     vp_profiles['VP{}'.format(vp)] = fluxes
 
 

@@ -17,54 +17,49 @@ all_names = []
 flux_dictionary = patient_fluxes.to_dict()['1']
 
 dictionary = {**flux_dictionary, **initial_conc.to_dict()['0']}
-a_dictionary = {
-                'a1' : 0.36*0.6,
-                'a2' : 0.693,
-                'a3' : 8.3,
-                'a4' : 0.36*2000,
-                'a5' : 0.36*350,
-                'a6' : 0.36*4000,
-                'a7' : 0.36*10,
-                'a8' : 0.0219,
-                'a9' : 8.3,
-                'a10' : 0.1,
-                'a11' : 1*(1-0.14),
-                'a12' : 0.025*(1-0.6),
-                'a13' : 0.1,
-                'a14' : 0,
-                'a15' : 0.693,
-                'a16' : 0.000577,
-                'a17' : 0,
-                'a18' : 0.0238,
-                'a19' : 0.00034,
-                'a20' : 0.36,
-                'a21' : 0.36*0.6,
-                'a22' : 0,
-                'a23' : 0,
-                'a24' : 0,
-                'a25' : 0.333 ,
-                'a26' : 0.5,
-                'a27' : 0}
 
-max_iterations = 10000
+dictionary['MAb_dose'] = 0
+dictionary['Statin_dose'] = 0
 
-v_step = 100
+for key, val in dictionary.items():
+    exec("{} = {}".format(key, val))
 
-list_of_target_coefficients = ['a2', 'a7']
+fluxes = np.array([eval(str(flux_symbols[f_i])) for f_i in range(1, len(flux_symbols)+1)])
 
+a_dictionary = {}
+for f_i in range(1, len(flux_symbols)+1):
+    if len(null_sum[f_i-1].free_symbols) == 1:
+        a_dictionary[str(null_sum[f_i-1])] = fluxes[f_i-1]
+        exec("{} = {}".format(str(null_sum[f_i-1]), fluxes[f_i-1]))
+        print(null_sum[f_i-1])
 
 dictionary = {**dictionary, **a_dictionary}
+
+
+e_fluxes = np.array([eval(str(flux)) for flux in null_sum])
+print(e_fluxes)
+
+
+max_iterations = 100
+v_step = 100
+
 
 # for now change so everything is > 0
 
 
-fluxes_dependent_on_target = []
-free_symbols = []
+list_of_target_coefficients = list(a_dictionary.keys())
+print(list_of_target_coefficients)
 
 good_coefficients = {}
 
+base_dictionary = dict(dictionary)
 
 for target_a in list_of_target_coefficients:
+
+    new_dictionary = dict(base_dictionary)
+    fluxes_dependent_on_target = []
+
+    free_symbols = []
     for col in null_sum:
         if sy.Symbol(target_a) in col.free_symbols:
             fluxes_dependent_on_target.append(str(col))
@@ -74,8 +69,13 @@ for target_a in list_of_target_coefficients:
 
     # first need to create python variables for all the free variables
     # and set it equal to its value
-    for free_symbol in free_symbols:
-        exec("{} = {}".format(free_symbol, dictionary[str(free_symbol)]))
+
+
+        for free_symbol in free_symbols:
+
+            exec("{} = {}".format(free_symbol, new_dictionary[str(free_symbol)]))
+
+        expected_fluxes = np.array([eval(expression) for expression in fluxes_dependent_on_target])
 
 
 
@@ -84,7 +84,7 @@ for target_a in list_of_target_coefficients:
 
     #expected_fluxes = np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
 
-    expected_fluxes = np.array([eval(expression) for expression in fluxes_dependent_on_target])
+
 
 
 
@@ -106,25 +106,34 @@ for target_a in list_of_target_coefficients:
 
 
     M =  a_dictionary[target_a]
-    NewVariance = 1e-2*M
+    if target_a in ['a16', 'a21', 'a23', 'a24', 'a25']:
+        NewVariance = 0.1 * M
+    else:
+        NewVariance = 0.01 * M
     # take 0.1% steps
-    h = 0.001*M
+    if target_a in ['a8', 'a12']:
+        h = 0.0001*M
+    else:
+        h = 0.001*M
 
+    print(M)
     for m in range(max_iterations):
         V[m] = NewVariance
+        #print(M, V[m])
         mu[m] = math.log((M**2)/math.sqrt(V[m]+M**2))
         sig[m] = math.sqrt(math.log(V[m]/(M**2)+1))
 
         initial_cost_step = lognorm(scale=np.exp(mu[m]), s=sig[m]).ppf(0.025)
         final_cost_step = lognorm(scale=np.exp(mu[m]), s=sig[m]).ppf(0.975)
         delta_v = (final_cost_step - initial_cost_step) / v_step
-
+        if all(np.isnan(initial_cost_step)):
+            break
         for n in range(v_step + 1):
 
             a_log[m, n] = initial_cost_step + (n - 1) * delta_v
-            dictionary[target_a] = a_log[m, n]
+            new_dictionary[target_a] = a_log[m, n]
 
-            exec("{} = {}".format(target_a, dictionary[target_a]))
+            exec("{} = {}".format(target_a, new_dictionary[target_a]))
 
 
             #new_fluxes =  np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])

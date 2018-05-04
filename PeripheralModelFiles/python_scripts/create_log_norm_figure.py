@@ -11,7 +11,7 @@ x = np.linspace(0, lognorm.ppf(0.99, s), 1000)
 x_25_975 = np.linspace(lognorm.ppf(0.025, s), lognorm.ppf(0.975, s), 1000)
 
 ax.plot(x, rv.pdf(x), 'k-', lw=2, label='pdf')
-ax.plot(x_25_975, rv.pdf(x_25_975), 'r-', lw=5, alpha=0.6, label='2.5%-97.%')
+ax.plot(x_25_975, rv.pdf(x_25_975), 'r-', lw=5, alpha=0.6, label='2.5%-97.5%')
 
 
 ax.hist(rv.rvs(size=1000), normed=True, histtype='stepfilled',
@@ -29,9 +29,9 @@ ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8])
 ax.set_yticklabels([0, 0.2, 0.4, 0.6, 0.8], fontsize=12)
 
 ax.set_ylabel('Frequency', fontsize=20)
-ax.set_xlabel('$x$', fontsize=20)
+ax.set_xlabel('$a$', fontsize=20)
 
 plt.suptitle('lognormal distribution')
 
 plt.legend()
-plt.savefig('../figures/lognormal_distribution.png')
+plt.savefig('../figures/lognormal_distribution.png', transparent=True)
