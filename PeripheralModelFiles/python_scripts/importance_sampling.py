@@ -56,24 +56,36 @@ dictionary = {**dictionary, **a_dictionary}
 
 
 fluxes_dependent_on_target = []
+free_symbols = []
+
 for col in null_sum:
     if sy.Symbol(target_a) in col.free_symbols:
-        fluxes_dependent_on_target.append(col)
+        fluxes_dependent_on_target.append(str(col))
+        for free_symbol in col.free_symbols:
+            if free_symbol not in free_symbols:
+                free_symbols.append(str(free_symbol))
 
-##### DOSING WTF???? #####
-# MAb_dose = 0
-# Statin_dose = 0
-# dictionary['MAb_dose'] = MAb_dose
-# dictionary['Statin_dose'] = Statin_dose
+# first need to create python variables for all the free variables
+# and set it equal to its value
+for free_symbol in free_symbols:
+    exec("{} = {}".format(free_symbol, dictionary[str(free_symbol)]))
+
+
 
 # find which coefficients correspond to which fluxes
 
+print(fluxes_dependent_on_target)
+
+#expected_fluxes = np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
 
 
-expected_fluxes = np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
-print(expected_fluxes)
-max_iterations = 100
-h = .01
+
+
+expected_fluxes = np.array([eval(expression) for expression in fluxes_dependent_on_target])
+
+
+max_iterations = 1000
+h = 0.0001
 
 alpha = 1
 beta = 1
@@ -103,8 +115,8 @@ for m in range(max_iterations):
     mu[m] = math.log((M**2)/math.sqrt(V[m]+M**2))
     sig[m] = math.sqrt(math.log(V[m]/(M**2)+1))
 
-    initial_cost_step = lognorm(mu[m], sig[m]).ppf(0.025)
-    final_cost_step = lognorm(mu[m], sig[m]).ppf(0.975)
+    initial_cost_step = lognorm(scale=np.exp(mu[m]), s=sig[m]).ppf(0.025)
+    final_cost_step = lognorm(scale=np.exp(mu[m]), s=sig[m]).ppf(0.975)
     delta_v = (final_cost_step - initial_cost_step) / v_step
 
     for n in range(v_step + 1):
@@ -112,11 +124,15 @@ for m in range(max_iterations):
         a_log[m, n] = initial_cost_step + (n - 1) * delta_v
         dictionary[target_a] = a_log[m, n]
 
-        new_fluxes =  np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
+        exec("{} = {}".format(target_a, dictionary[target_a]))
+
+
+        #new_fluxes =  np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
+        new_fluxes = np.array([eval(expression) for expression in fluxes_dependent_on_target])
 
         extrema_count[m] = extrema_count[m] + ((new_fluxes < (0.5*expected_fluxes))| (new_fluxes > (1.5*expected_fluxes))).sum()
     extrema_ratio[m] = extrema_count[m] / possible_extrema
-    print()
+
     if extrema_ratio[m] > 0.051:
         NewVariance = V[m] - h
     elif extrema_ratio[m] < 0.049:
@@ -124,7 +140,9 @@ for m in range(max_iterations):
     else:
         break
 
-print('There are %d out of %d extreme flux values. Ratio is %.4f'.format(extrema_count[m], possible_extrema, extrema_ratio[m]))
+print(m)
+print("u is {}, sigma is {}".format(mu[m][0], sig[m][0]))
+print('There are {} out of {} extreme flux values. Ratio is {}'.format(extrema_count[m], possible_extrema, extrema_ratio[m]))
 
 
 
