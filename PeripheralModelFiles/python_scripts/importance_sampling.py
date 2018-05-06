@@ -13,6 +13,10 @@ initial_conc = pd.read_csv('../species.csv', sep=',', index_col=0)
 
 all_names = []
 
+fluxes_from_ppt = ['Bile_acid_chol_secretion_rate_k', 'Chol_ic_H_production_ rate_k', 'LDL-R_en_H_degradation_rate_k',
+                   'LDL-R_en_P_degradation_rate_k', 'LDL-R_ic_H_production_rate_k', 'LDL-R_ic_P_production_ra te_k',
+                   'PCSK9_ic_H_production_rate_k', 'PCSK9_LDL-R_en_Kd', 'PCSK9_LDL-R_pl_Kd', 'PCSK9_pl_clearance_rate_k'
+                   'HDL_to_VLDL_exchange_rate_k', 'HDL_to_LDL_exchange_rate_k', 'SREBP_PCSK9_nh', 'SREBP_LDL-R_nh']
 
 flux_dictionary = patient_fluxes.to_dict()['1']
 
@@ -23,6 +27,12 @@ dictionary['Statin_dose'] = 0
 
 for key, val in dictionary.items():
     exec("{} = {}".format(key, val))
+
+for ppt_flx in fluxes_from_ppt:
+    for flx_idx, flx in flux_symbols.items():
+        if ppt_flx in str(flx):
+            print(ppt_flx, flx)
+
 
 fluxes = np.array([eval(str(flux_symbols[f_i])) for f_i in range(1, len(flux_symbols)+1)])
 
@@ -43,6 +53,12 @@ print(e_fluxes)
 max_iterations = 100
 v_step = 100
 
+# first need to create python variables for all the free variables
+# and set it equal to its value
+
+
+for a, a_val in a_dictionary.items():
+    exec("{} = {}".format(a, a_val))
 
 # for now change so everything is > 0
 
@@ -59,35 +75,12 @@ for target_a in list_of_target_coefficients:
     new_dictionary = dict(base_dictionary)
     fluxes_dependent_on_target = []
 
-    free_symbols = []
     for col in null_sum:
         if sy.Symbol(target_a) in col.free_symbols:
             fluxes_dependent_on_target.append(str(col))
-            for free_symbol in col.free_symbols:
-                if free_symbol not in free_symbols:
-                    free_symbols.append(str(free_symbol))
-
-    # first need to create python variables for all the free variables
-    # and set it equal to its value
 
 
-        for free_symbol in free_symbols:
-
-            exec("{} = {}".format(free_symbol, new_dictionary[str(free_symbol)]))
-
-        expected_fluxes = np.array([eval(expression) for expression in fluxes_dependent_on_target])
-
-
-
-    # find which coefficients correspond to which fluxes
-
-
-    #expected_fluxes = np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
-
-
-
-
-
+    expected_fluxes = np.array([eval(expression) for expression in fluxes_dependent_on_target])
 
 
     num_flux = len(fluxes_dependent_on_target)
@@ -102,19 +95,16 @@ for target_a in list_of_target_coefficients:
     extrema_ratio = np.zeros((max_iterations,1))
 
     p_epsilon = 1e-2
-    possible_extrema = num_flux*(v_step+1)
+    possible_extrema = num_flux*(v_step)
 
 
     M =  a_dictionary[target_a]
     if target_a in ['a16', 'a21', 'a23', 'a24', 'a25']:
-        NewVariance = 0.1 * M
+        NewVariance = 1 * M
     else:
         NewVariance = 0.01 * M
-    # take 0.1% steps
-    if target_a in ['a8', 'a12']:
-        h = 0.0001*M
-    else:
-        h = 0.001*M
+
+    h = 0.001*M
 
     print(M)
     for m in range(max_iterations):
@@ -126,11 +116,12 @@ for target_a in list_of_target_coefficients:
         initial_cost_step = lognorm(scale=np.exp(mu[m]), s=sig[m]).ppf(0.025)
         final_cost_step = lognorm(scale=np.exp(mu[m]), s=sig[m]).ppf(0.975)
         delta_v = (final_cost_step - initial_cost_step) / v_step
+        #print(mu[m], sig[m])
         if all(np.isnan(initial_cost_step)):
             break
-        for n in range(v_step + 1):
+        for n in range(0, v_step):
 
-            a_log[m, n] = initial_cost_step + (n - 1) * delta_v
+            a_log[m, n] = initial_cost_step + (n) * delta_v
             new_dictionary[target_a] = a_log[m, n]
 
             exec("{} = {}".format(target_a, new_dictionary[target_a]))
@@ -139,7 +130,7 @@ for target_a in list_of_target_coefficients:
             #new_fluxes =  np.array([col.subs(dictionary) for col in fluxes_dependent_on_target])
             new_fluxes = np.array([eval(expression) for expression in fluxes_dependent_on_target])
 
-            extrema_count[m] = extrema_count[m] + ((new_fluxes < (0.5*expected_fluxes))| (new_fluxes > (1.5*expected_fluxes))).sum()
+            extrema_count[m] = extrema_count[m] + ((new_fluxes < (0.5*expected_fluxes)) | (new_fluxes > (1.5*expected_fluxes))).sum()
         extrema_ratio[m] = extrema_count[m] / possible_extrema
 
         if extrema_ratio[m] > 0.051:

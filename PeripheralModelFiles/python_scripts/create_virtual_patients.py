@@ -5,7 +5,7 @@ import numpy as np
 
 num_patients = 20
 
-list_of_target_coefficients = ['a2', 'a7']
+
 
 mus_and_sigmas = pd.read_csv('../text_files/u_and_sigmas.csv', sep=',', index_col=0, header=None)
 
@@ -16,40 +16,34 @@ initial_conc = pd.read_csv('../species.csv', sep=',', index_col=0)
 all_names = []
 
 
+# only vary the mus and sigmas we could find mus and sigmas for
+# in importance sampling
+
+list_of_target_coefficients = mus_and_sigmas.index
+
 flux_dictionary = patient_fluxes.to_dict()['1']
 
 dictionary = {**flux_dictionary, **initial_conc.to_dict()['0']}
 
+dictionary['MAb_dose'] = 0
+dictionary['Statin_dose'] = 0
 
-a_dictionary = {
-                'a1' : 0.36*0.6,
-                'a2' : 0.693,
-                'a3' : 8.3,
-                'a4' : 0.36*2000,
-                'a5' : 0.36*350,
-                'a6' : 0.36*4000,
-                'a7' : 0.36*10,
-                'a8' : 0.0219,
-                'a9' : 8.3,
-                'a10' : 0.1,
-                'a11' : 1*(1-0.14),
-                'a12' : 0.025*(1-0.6),
-                'a13' : 0.1,
-                'a14' : 0,
-                'a15' : 0.693,
-                'a16' : 0.000577,
-                'a17' : 0,
-                'a18' : 0.0238,
-                'a19' : 0.00034,
-                'a20' : 0.36,
-                'a21' : 0.36*0.6,
-                'a22' : 0,
-                'a23' : 0,
-                'a24' : 0,
-                'a25' : 0.333 ,
-                'a26' : 0.5,
-                'a27' : 0,
-                'a28' : 0}
+for key, val in dictionary.items():
+    exec("{} = {}".format(key, val))
+
+fluxes = np.array([eval(str(flux_symbols[f_i])) for f_i in range(1, len(flux_symbols)+1)])
+
+print(fluxes)
+
+a_dictionary = {}
+for f_i in range(1, len(flux_symbols)+1):
+    if len(null_sum[f_i-1].free_symbols) == 1:
+        a_dictionary[str(null_sum[f_i-1])] = fluxes[f_i-1]
+        exec("{} = {}".format(str(null_sum[f_i-1]), fluxes[f_i-1]))
+        print(null_sum[f_i-1])
+
+
+
 
 
 vp_profiles = {}
@@ -59,16 +53,25 @@ for vp in range(num_patients):
     vp_coefficients = {}
     for a in list_of_target_coefficients:
         mu, sigma = mus_and_sigmas.loc[a, 1], mus_and_sigmas.loc[a, 2]
-        vp_coefficients[a] = lognorm(scale=np.exp(mu), s=sigma).rvs(size=1)
+        sample = lognorm(scale=np.exp(mu), s=sigma).rvs(size=1)
+        vp_coefficients[a] = sample
+        if sample < 0:
+            print(a)
 
     # supplement these values with missing a_s
     for other_a, average_a in a_dictionary.items():
         if other_a not in vp_coefficients.keys():
-            vp_coefficients[other_a] = average_a
+                   vp_coefficients[other_a] = average_a
 
-    solved_fluxes = null_sum.subs({**dictionary, **vp_coefficients})
+    for vp_coeff, val in vp_coefficients.items():
+        exec("{} = {}".format(vp_coeff, float(val)))
+
+    solved_fluxes = [eval(str(equation)) for equation in null_sum]
     fluxes = {}
     for i, flux in enumerate(solved_fluxes):
+        if flux <0:
+            print(flux)
+            print(null_sum[i+1])
         fluxes[str(flux_symbols[i+1])] = flux
     vp_profiles['VP{}'.format(vp)] = fluxes
 
