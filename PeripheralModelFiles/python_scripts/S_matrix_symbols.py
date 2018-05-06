@@ -1,4 +1,4 @@
-from sympy import sympify, Matrix, simplify
+from sympy import sympify, Matrix, simplify, preview
 import pandas as pd
 from symbols import flux_symbols, metabolite_symbols, volume_symbols, p_symbols, k_symbols, c_symbols
 
@@ -146,23 +146,29 @@ S = Matrix(new_S.values)
 
 nullspace = S.nullspace()
 
+print(len(nullspace))
+print(len(nullspace[0]))
+
+preview(nullspace, output='png')
 
 null_sum = sympify('a{}'.format(1)) * nullspace[0]
 for i in range(1, len(nullspace)):
     a = sympify('a{}'.format(i+1))
     null_sum = null_sum + (a * nullspace[i])
 
+
+
 # f = open('../text_files/nullsum.txt', 'w')
 # for i, param in enumerate(null_sum):
 #     idx = i+1
 #     expression = str(simplify(param))
-#     f.write(expression + '\n')
+#     f.write(expression + ',' + str(flux_symbols[idx]) + '\n')
 # f.close()
 # print(len(nullspace))
 # for i, each in enumerate(null_sum):
 #     print(i+1, simplify(each))
-
-
+#
+#
 
 
 # m = []

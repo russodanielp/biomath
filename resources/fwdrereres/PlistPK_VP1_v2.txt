@@ -1,0 +1,7 @@
+biliary_chol_secretion_rate_k	 = 	0.000718
+compartment	 =	1
+Time_Sim_production_rate_k	 =	1
+weight_ApoB_HDL_LDL	 =	1
+weight_ApoB_HDL_VLDL	 =	1
+weight_CETP_HDL_LDL	 =	1
+weight_CETP_HDL_VLDL	 =	1

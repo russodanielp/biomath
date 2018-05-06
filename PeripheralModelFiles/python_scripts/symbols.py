@@ -7,7 +7,7 @@ flux_symbols = {
             4:sympify('MAb_kel'),
             5:sympify('Statin_Ka')*sympify('Statin_F'),
             6:sympify('Statin_kel'),
-            7:sympify('LDLR_ic_P_production_rate_k'),
+            7:sympify('LDLR_ic_P_production_rate_k'), #7
             8:sympify('LDLR_ic_to_cs_P_trafficking_rate_k'),
             9:sympify('SREBP_ic_P_production_rate_k'),
             10:sympify('SREBP_ic_P_degradation_rate_k'),
@@ -17,31 +17,31 @@ flux_symbols = {
             14:sympify('LDL_LDLR_pl_association_rate_k'),
             15:sympify('LDL_LDLR_pl_association_rate_k')*sympify('LDL_LDLR_pl_Kd'),
             16:sympify('PCSK9_LDLR_pl_association_rate_k'),
-            17:sympify('PCSK9_LDLR_pl_association_rate_k')*sympify('PCSK9_LDLR_pl_Kd'),
+            17:sympify('PCSK9_LDLR_pl_association_rate_k')*sympify('PCSK9_LDLR_pl_Kd'), #17
             18:sympify('LDL_LDLR_en_association_rate_k'),
             19:sympify('LDL_LDLR_en_association_rate_k')*sympify('LDL_LDLR_en_Kd'),
             20:sympify('PCSK9_LDLR_en_association_rate_k'),
-            21:sympify('PCSK9_LDLR_en_association_rate_k')*sympify('PCSK9_LDLR_en_Kd'),
-            22:sympify('LDLR_en_P_degradation_rate_k'),
+            21:sympify('PCSK9_LDLR_en_association_rate_k')*sympify('PCSK9_LDLR_en_Kd'), #21
+            22:sympify('LDLR_en_P_degradation_rate_k'), # 22
             23:sympify('PCSK9_en_P_degradation_rate_k'),
             24:sympify('LDL_LDLR_P_internalization_rate_k'),
             25:sympify('PC9_LDLR_P_internalization_rate_k'),
             26:sympify('ApoB_pl_clearance_rate_k'),
             27:sympify('ApoA1_pl_clearance_rate_k'),
-            28:sympify('PCSK9_pl_clearance_rate_k'),
+            28:sympify('PCSK9_pl_clearance_rate_k'), # 28
             29:sympify('Statin_Ka')*(1-sympify('Statin_F')),
             30:sympify('MAb_Ka')*sympify('MAb_F'),
             31:sympify('MAb_Ka')*(1-sympify('MAb_F')),
-            32:sympify('PC9_LDLR_en_P_degradation_rate_k'),
+            32:sympify('PC9_LDLR_en_P_degradation_rate_k'), #32
             33:sympify('Chol_ic_P_production_rate_k'),
             34:sympify('Chol_ic_P_elimination_rate_k'),
             35:sympify('SREBP_nu_P_degradation_rate_k'),
             36:sympify('LDL_en_to_Chol_ic_P_rate_k'),
             37:sympify('VLDL_to_LDL_conversion_rate_k'),
-            38:sympify('HDL_to_LDL_exchange_rate_k'),
+            38:sympify('HDL_to_LDL_exchange_rate_k'), # 38
             39:sympify('Chol_ic_P_to_HDL_pl_rate_k'),
             40:sympify('VLDL_pl_P_uptake_rate_k'),
-            41:sympify('HDL_to_VLDL_exchange_rate_k'),
+            41:sympify('HDL_to_VLDL_exchange_rate_k'), # 41
             42:sympify('LDL_pl_LDLRind_P_uptake_rate_k'),
             43:sympify('MAb_PC9_2_kel'),
             44:sympify('MAb_PC9_2_association_rate_k'),
@@ -142,3 +142,5 @@ c_symbols = {
 }
 
 all_symbols = [flux_symbols, metabolite_symbols, volume_symbols, p_symbols, k_symbols, c_symbols]
+variable_flux_idxs = [7, 17, 21, 22, 28, 32, 38, 41]
+coeff = ['a10', 'a12', 'a14', 'a23']
